@@ -1,0 +1,71 @@
+.register-container {
+    width: 450px;
+    margin: 100px auto;
+    background-color: #799163; 
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF; 
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #EDE0A6; 
+}
+
+.register-container input,
+.register-container select {
+    width: 95%; 
+    padding: 12px;
+    margin: 16px auto;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: #FFFFFF; 
+    color: #540202; 
+    display: block;
+}
+
+.register-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #507B58; 
+    color: #EDE0A6; 
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.register-container button:hover {
+    background-color: #799163; 
+    transform: scale(1.02); 
+}
+
+form a {
+    color: #AB8F6B; 
+    text-decoration: underline; 
+    font-size: 14px;
+    margin-top: 15px;
+    display: block;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+form a:hover {
+    color: #AB3131; 
+}
+
+body {
+    background-color: #E4D1B0; 
+    font-family: Arial, sans-serif;
+}
+.error-message {
+    color: #AB3131; 
+    font-weight: bold;
+    margin-top: 10px;
+}

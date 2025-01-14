@@ -1,0 +1,83 @@
+.create-team-container {
+    width: 450px;
+    margin: 100px auto;
+    background-color: #799163; 
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF; 
+}
+
+.create-team-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 26px;
+    color: #EDE0A6; 
+}
+
+.create-team-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center; 
+}
+
+.create-team-form label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #EDE0A6; 
+    width: 100%; 
+    text-align: left; 
+}
+
+.create-team-form input,
+.create-team-form select {
+    width: 100%; 
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    background-color: #FFFFFF; 
+    color: #540202; 
+    box-sizing: border-box;
+    height: 44px;
+}
+
+.create-team-form select {
+    height: 120px; 
+    resize: none; 
+}
+
+.create-team-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #507B58;
+    color: #EDE0A6; 
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.create-team-form button:hover {
+    background-color: #799163; 
+    transform: scale(1.02);
+}
+
+.error-message {
+    color: #7E1E1E; 
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.success-message {
+    color: #EDE0A6; 
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}

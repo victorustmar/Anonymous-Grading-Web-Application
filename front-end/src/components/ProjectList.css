@@ -1,0 +1,22 @@
+.project-list-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #799163;
+    border-radius: 10px;
+    color: #ede0a6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-list-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.project-list-container li {
+    background-color: #ffffff;
+    color: #540202;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}

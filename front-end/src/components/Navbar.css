@@ -1,0 +1,49 @@
+.navbar {
+    background-color: #540202; 
+    padding: 15px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; 
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li a,
+.navbar ul li .logout-link {
+    color: #EDE0A6; 
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s;
+    cursor: pointer; 
+    background: none; 
+    border: none; 
+    font-family: inherit; 
+    
+}
+
+.navbar ul li a:hover,
+.navbar ul li .logout-link:hover {
+    color: #AB3131; 
+}
+.logout-button {
+    background: none;
+    border: none;
+    color: #EDE0A6; 
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.logout-button:hover {
+    color: #AB3131; /* Culoare pentru hover */
+    
+}
