@@ -1,0 +1,3 @@
+node_modules/
+# //.vscode/extensions.json
+back-end/database.db
