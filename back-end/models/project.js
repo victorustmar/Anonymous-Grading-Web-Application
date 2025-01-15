@@ -27,5 +27,9 @@ export default (sequelize, DataTypes) => {
         },
     });
 
+    Project.associate = (models) => {
+        Project.hasMany(models.Grade, { foreignKey: "ProjectId" });
+    };
+
     return Project;
 };
