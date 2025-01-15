@@ -5,7 +5,8 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { sequelize, Sequelize, User, Student, Professor, Team, Project } from "./models/index.js";
+
+import { sequelize, Sequelize, User, Student, Professor, Team, Project , Grade} from "./models/index.js";
 
 
 
@@ -574,7 +575,7 @@ app.post("/api/assign-jury", async (req, res) => {
         res.status(500).json({ message: "Failed to assign jury." });
     }
 });
-app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury"]), async (req, res) => {
+app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury", "student"]), async (req, res) => {
     const { projectId } = req.params;
     const { gradeValue } = req.body;
 

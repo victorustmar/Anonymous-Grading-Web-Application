@@ -32,6 +32,8 @@ Student.belongsTo(Professor, { foreignKey: "ProfessorId" });
 Jury.belongsTo(User, { foreignKey: "UserId" });
 Jury.belongsTo(Project, { foreignKey: "ProjectId" });
 
+Jury.hasMany(Grade, { foreignKey: "JuryId" });
+
 Team.hasMany(Student, { foreignKey: "TeamId" });
 Student.belongsTo(Team, { foreignKey: "TeamId" });
 
@@ -40,6 +42,8 @@ Team.hasOne(Project, { foreignKey: "TeamName", sourceKey: "TeamName" });
 
 
 Project.hasMany(Jury, { foreignKey: "ProjectId" });
+
+Project.hasMany(Grade, { foreignKey: "ProjectId" });
 
 Grade.belongsTo(Jury, { foreignKey: "JuryId" });
 Grade.belongsTo(Project, { foreignKey: "ProjectId" });
