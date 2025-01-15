@@ -7,10 +7,18 @@ export default (sequelize, DataTypes) => {
         },
         JuryId: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true, // Changed to allow null as JuryId may not be used anymore
             references: {
                 model: "Jury",
                 key: "JuryId",
+            },
+        },
+        StudentId: {
+            type: DataTypes.INTEGER,
+            allowNull: false, // StudentId is mandatory
+            references: {
+                model: "Students", // Ensure this matches your students table name
+                key: "StudentId",
             },
         },
         ProjectId: {

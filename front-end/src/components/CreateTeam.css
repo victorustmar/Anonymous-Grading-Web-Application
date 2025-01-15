@@ -1,18 +1,18 @@
 .create-team-container {
     width: 450px;
     margin: 100px auto;
-    background-color: #799163; 
+    background-color: #add990; 
     border-radius: 10px;
     padding: 30px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    color: #FFFFFF; 
+    color: #132967; 
 }
 
 .create-team-container h2 {
     text-align: center;
     margin-bottom: 20px;
     font-size: 26px;
-    color: #EDE0A6; 
+    color: #132967; 
 }
 
 .create-team-form {
@@ -25,7 +25,7 @@
 .create-team-form label {
     font-weight: bold;
     font-size: 16px;
-    color: #EDE0A6; 
+    color: #132967; 
     width: 100%; 
     text-align: left; 
 }
@@ -51,8 +51,8 @@
 .create-team-form button {
     width: 100%;
     padding: 12px;
-    background-color: #507B58;
-    color: #EDE0A6; 
+    background-color: #9dcce4;
+    color: #132967; 
     border: none;
     border-radius: 5px;
     font-size: 18px;

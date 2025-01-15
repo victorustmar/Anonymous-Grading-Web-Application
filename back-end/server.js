@@ -5,7 +5,9 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { sequelize, Sequelize, User, Student, Professor, Team, Project } from "./models/index.js";
+
+import { sequelize, Sequelize, User, Student, Professor, Team, Project , Grade, Jury} from "./models/index.js";
+import grade from "./models/grade.js";
 
 
 
@@ -574,7 +576,7 @@ app.post("/api/assign-jury", async (req, res) => {
         res.status(500).json({ message: "Failed to assign jury." });
     }
 });
-app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury"]), async (req, res) => {
+/* app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury", "student"]), async (req, res) => {
     const { projectId } = req.params;
     const { gradeValue } = req.body;
 
@@ -600,7 +602,52 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury"]), a
         console.error("Error submitting grade:", error);
         res.status(500).json({ message: "Failed to submit grade." });
     }
+}); */
+
+app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"]), async (req, res) => {
+    const { projectId } = req.params;
+    const { gradeValue } = req.body;
+
+    // Validate grade value
+    if (!gradeValue || gradeValue < 1 || gradeValue > 10) {
+        return res.status(400).json({ message: "Grade must be between 1 and 10." });
+    }
+
+    try {
+        // Verify if the project exists
+        const project = await Project.findOne({ where: { ProjectId: projectId } });
+
+        if (!project) {
+            return res.status(404).json({ message: "Project not found." });
+        }
+
+        // Check if the student has already graded this project
+        const existingGrade = await Grade.findOne({
+            where: {
+                StudentId: req.user.userId, // Assuming `userId` refers to the student's ID
+                ProjectId: projectId,
+            },
+        });
+
+        if (existingGrade) {
+            return res.status(400).json({ message: "You have already graded this project." });
+        }
+
+        // Create a new grade entry
+        await Grade.create({
+            StudentId: req.user.userId, // Log the student grading the project
+            ProjectId: projectId,
+            grade: gradeValue,
+            JuryId: 5,
+        });
+
+        res.status(201).json({ message: "Grade submitted successfully." });
+    } catch (error) {
+        console.error("Error submitting grade:", error);
+        res.status(500).json({ message: "Failed to submit grade." });
+    }
 });
+
 
 app.get('/api/projects/team/:teamName', authenticateToken, restrictAccess(['student']), async (req, res) => {
     const { teamName } = req.params;
@@ -717,4 +764,3 @@ app.listen(port, () => {
         console.error('Server error:', err);
     }
 });
-

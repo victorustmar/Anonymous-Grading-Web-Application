@@ -6,7 +6,8 @@ import "./StudentWorkspace.css";
 function StudentWorkspace() {
     const [team, setTeam] = useState(null);
     const [grades, setGrades] = useState([]);
-    const [projects, setProjects] = useState([]); // State for team projects
+    // Removed the `projects` and setProjects since they're no longer needed:
+    // const [projects, setProjects] = useState([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -31,16 +32,16 @@ function StudentWorkspace() {
                     );
                     setGrades(gradesResponse.data);
 
-                    // Fetch projects
-                    const projectsResponse = await axios.get(
-                        `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                            },
-                        }
-                    );
-                    setProjects(projectsResponse.data);
+                    // If you previously fetched projects, you can remove that call:
+                    // const projectsResponse = await axios.get(
+                    //     `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
+                    //     {
+                    //         headers: {
+                    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    //         },
+                    //     }
+                    // );
+                    // setProjects(projectsResponse.data);
                 }
             } catch (err) {
                 console.error("Error fetching team data:", err);
@@ -68,7 +69,9 @@ function StudentWorkspace() {
                         </ul>
                     </div>
                 ) : (
-                    <p className="error-message">{error || "You are not part of any team."}</p>
+                    <p className="error-message">
+                        {error || "You are not part of any team."}
+                    </p>
                 )}
             </div>
 
@@ -78,8 +81,10 @@ function StudentWorkspace() {
                 <AddProject teamName={team?.TeamName} />
             </div>
 
-            <hr />
+            {/* 
+            REMOVE or COMMENT OUT the Team Projects section:
 
+            <hr />
             <div className="projects-section">
                 <h2>Team Projects</h2>
                 {projects.length > 0 ? (
@@ -101,6 +106,7 @@ function StudentWorkspace() {
                     <p>No projects have been created yet.</p>
                 )}
             </div>
+            */}
 
             <hr />
 
@@ -110,8 +116,8 @@ function StudentWorkspace() {
                     <ul>
                         {grades.map((grade, index) => (
                             <li key={index}>
-                                <strong>Project:</strong> {grade.ProjectTitle} - <strong>Grade:</strong>{" "}
-                                {grade.GradeValue}
+                                <strong>Project:</strong> {grade.ProjectTitle} -{" "}
+                                <strong>Grade:</strong> {grade.GradeValue}
                             </li>
                         ))}
                     </ul>
