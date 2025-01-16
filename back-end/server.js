@@ -461,9 +461,9 @@ app.get("/api/professor/students", authenticateToken, restrictAccess(["professor
 });
 
 app.post('/api/grades', async (req, res) => {
-    const { juryId, projectId, gradeValue } = req.body;
+    const {  projectId, gradeValue } = req.body;
 
-    await Grade.create({ JuryId: juryId, ProjectId: projectId, GradeValue: gradeValue });
+    await Grade.create({  ProjectId: projectId, GradeValue: gradeValue });
 
     res.status(201).json({ message: "Grade submitted successfully" });
 });
@@ -614,6 +614,15 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"])
     }
 
     try {
+        // Verify the student exists
+        const student = await Student.findOne({
+            where: { UserId: req.user.userId }, // Map UserId to StudentId
+        });
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found." });
+        }
+
         // Verify if the project exists
         const project = await Project.findOne({ where: { ProjectId: projectId } });
 
@@ -624,7 +633,7 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"])
         // Check if the student has already graded this project
         const existingGrade = await Grade.findOne({
             where: {
-                StudentId: req.user.userId, // Assuming `userId` refers to the student's ID
+                StudentId: student.StudentId, // Use the correct StudentId
                 ProjectId: projectId,
             },
         });
@@ -633,12 +642,17 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"])
             return res.status(400).json({ message: "You have already graded this project." });
         }
 
-        // Create a new grade entry
-        await Grade.create({
-            StudentId: req.user.userId, // Log the student grading the project
+        console.log({
+            StudentId: student.StudentId, // Log the correct StudentId
             ProjectId: projectId,
             grade: gradeValue,
-            JuryId: 5,
+        });
+
+        // Create a new grade entry
+        await Grade.create({
+            StudentId: student.StudentId, // Use the correct StudentId
+            ProjectId: projectId,
+            grade: gradeValue,
         });
 
         res.status(201).json({ message: "Grade submitted successfully." });

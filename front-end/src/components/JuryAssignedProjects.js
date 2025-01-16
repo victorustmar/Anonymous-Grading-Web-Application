@@ -132,7 +132,7 @@ function JuryAssignedProjects() {
                     </form>
                 </div>
             ) : (
-                <p>No project available for grading at the moment.</p>
+                <p>Congratulations on grading the project! If you haven't, there is no project available for grading at the moment.</p>
             )}
         </div>
     );

@@ -5,19 +5,11 @@ export default (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        JuryId: {
-            type: DataTypes.INTEGER,
-            allowNull: true, // Changed to allow null as JuryId may not be used anymore
-            references: {
-                model: "Jury",
-                key: "JuryId",
-            },
-        },
         StudentId: {
             type: DataTypes.INTEGER,
-            allowNull: false, // StudentId is mandatory
+            allowNull: false,
             references: {
-                model: "Students", // Ensure this matches your students table name
+                model: "Students",
                 key: "StudentId",
             },
         },
