@@ -36,7 +36,7 @@ function ProfessorWorkspace() {
             <h1>Professor Workspace</h1>
             {loading && <p>Loading projects...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
-            {!loading && projects.length === 0 && <p>No projects assigned yet.</p>}
+            {!loading && projects.length === 0 && <p>No projects with exactly 3 grades found.</p>}
             {!loading && projects.length > 0 && (
                 <ul>
                     {projects.map((project, index) => (
@@ -45,8 +45,7 @@ function ProfessorWorkspace() {
                             <br />
                             <strong>Team Members:</strong> {project.members.join(", ")}
                             <br />
-                            <strong>Grades:</strong>{" "}
-                            {project.grades.length > 0 ? project.grades.join(", ") : "No grades yet"}
+                            <strong>Mean Grade:</strong> {project.meanGrade}
                         </li>
                     ))}
                 </ul>

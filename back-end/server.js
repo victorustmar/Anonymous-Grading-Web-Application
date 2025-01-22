@@ -479,12 +479,15 @@ app.get('/api/projects/:projectId/final-grade', async (req, res) => {
 });
 app.get("/api/professor-projects", authenticateToken, restrictAccess(["professor"]), async (req, res) => {
     try {
-        console.log("Professor ID:", req.user.userId);
-
         const projects = await Project.findAll({
             include: [
                 {
+                    model: Grade,
+                    attributes: ["grade"],
+                },
+                {
                     model: Team,
+                    attributes: ["TeamName"],
                     include: [
                         {
                             model: Student,
@@ -492,32 +495,33 @@ app.get("/api/professor-projects", authenticateToken, restrictAccess(["professor
                         },
                     ],
                 },
-                {
-                    model: Grade,
-                    attributes: ["GradeValue"],
-                },
             ],
         });
 
-        console.log("Projects fetched:", projects);
+        const filteredProjects = projects
+            .map((project) => {
+                const grades = project.Grades.map((grade) => grade.grade);
 
-        if (!projects.length) {
-            return res.status(404).json({ message: "No projects found for this professor." });
-        }
+                if (grades.length === 3) {
+                    const meanGrade = grades.reduce((sum, grade) => sum + grade, 0) / grades.length;
+                    return {
+                        title: project.Title,
+                        teamName: project.Team.TeamName,
+                        members: project.Team.Students.map((student) => student.User.Username),
+                        meanGrade: meanGrade.toFixed(2), // Round to 2 decimal places
+                    };
+                }
+                return null;
+            })
+            .filter((project) => project !== null);
 
-        const formattedProjects = projects.map((project) => ({
-            title: project.Title,
-            teamName: project.Team.TeamName,
-            members: project.Team.Students.map((student) => student.User.Username),
-            grades: project.Grades.map((grade) => grade.GradeValue),
-        }));
-
-        res.status(200).json(formattedProjects);
+        res.status(200).json(filteredProjects);
     } catch (error) {
         console.error("Error fetching professor projects:", error);
         res.status(500).json({ message: "Failed to fetch professor projects." });
     }
 });
+
 
 app.get("/api/jury-projects", authenticateToken, restrictAccess(["jury"]), async (req, res) => {
     try {
@@ -689,13 +693,24 @@ app.get("/api/grades/:teamName", async (req, res) => {
     try {
         const projects = await Project.findAll({
             where: { TeamName: teamName },
-            include: [{ model: Grade, attributes: ["GradeValue"] }],
+            include: [{ model: Grade, attributes: ["grade"] }], // Correct column name
         });
 
-        const grades = projects.map((project) => ({
-            ProjectTitle: project.Title,
-            GradeValue: project.Grades.map((grade) => grade.GradeValue),
-        }));
+        // Calculate mean grades for projects with exactly 3 grades
+        const grades = projects
+            .map((project) => {
+                const gradeValues = project.Grades.map((grade) => grade.grade); // Correct column name
+
+                if (gradeValues.length === 3) {
+                    const mean = gradeValues.reduce((sum, grade) => sum + grade, 0) / gradeValues.length;
+                    return {
+                        ProjectTitle: project.Title,
+                        MeanGrade: mean.toFixed(2), // Round to 2 decimal places
+                    };
+                }
+                return null;
+            })
+            .filter((project) => project !== null);
 
         res.status(200).json(grades);
     } catch (error) {
@@ -703,6 +718,7 @@ app.get("/api/grades/:teamName", async (req, res) => {
         res.status(500).json({ message: "Failed to fetch grades." });
     }
 });
+
 app.get('/api/teams/list', authenticateToken, async (req, res) => {
     try {
         console.log("Fetching all teams with their members...");

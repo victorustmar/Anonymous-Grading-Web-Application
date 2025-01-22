@@ -6,8 +6,7 @@ import "./StudentWorkspace.css";
 function StudentWorkspace() {
     const [team, setTeam] = useState(null);
     const [grades, setGrades] = useState([]);
-    // Removed the `projects` and setProjects since they're no longer needed:
-    // const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -21,7 +20,7 @@ function StudentWorkspace() {
                 setTeam(teamResponse.data);
 
                 if (teamResponse.data.TeamName) {
-                    // Fetch grades
+                    // Fetch grades with mean calculation
                     const gradesResponse = await axios.get(
                         `http://localhost:8000/api/grades/${teamResponse.data.TeamName}`,
                         {
@@ -32,16 +31,16 @@ function StudentWorkspace() {
                     );
                     setGrades(gradesResponse.data);
 
-                    // If you previously fetched projects, you can remove that call:
-                    // const projectsResponse = await axios.get(
-                    //     `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
-                    //     {
-                    //         headers: {
-                    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    //         },
-                    //     }
-                    // );
-                    // setProjects(projectsResponse.data);
+                    // Fetch projects
+                    const projectsResponse = await axios.get(
+                        `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            },
+                        }
+                    );
+                    setProjects(projectsResponse.data);
                 }
             } catch (err) {
                 console.error("Error fetching team data:", err);
@@ -69,9 +68,7 @@ function StudentWorkspace() {
                         </ul>
                     </div>
                 ) : (
-                    <p className="error-message">
-                        {error || "You are not part of any team."}
-                    </p>
+                    <p className="error-message">{error || "You are not part of any team."}</p>
                 )}
             </div>
 
@@ -81,10 +78,8 @@ function StudentWorkspace() {
                 <AddProject teamName={team?.TeamName} />
             </div>
 
-            {/* 
-            REMOVE or COMMENT OUT the Team Projects section:
-
             <hr />
+
             <div className="projects-section">
                 <h2>Team Projects</h2>
                 {projects.length > 0 ? (
@@ -106,7 +101,6 @@ function StudentWorkspace() {
                     <p>No projects have been created yet.</p>
                 )}
             </div>
-            */}
 
             <hr />
 
@@ -116,13 +110,12 @@ function StudentWorkspace() {
                     <ul>
                         {grades.map((grade, index) => (
                             <li key={index}>
-                                <strong>Project:</strong> {grade.ProjectTitle} -{" "}
-                                <strong>Grade:</strong> {grade.GradeValue}
+                                <strong>Project:</strong> {grade.ProjectTitle} - <strong>Mean Grade:</strong> {grade.MeanGrade}
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>No grade received yet.</p>
+                    <p>No projects with exactly 3 grades yet.</p>
                 )}
             </div>
         </div>
