@@ -1,0 +1,50 @@
+.professor-workspace-container {
+    width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #add990;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.professor-workspace-container h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #132967;
+    margin-bottom: 20px;
+}
+
+.professor-workspace-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.professor-workspace-container li {
+    background-color: #ffffff;
+    color: #540202;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.professor-workspace-container li strong {
+    color: #132967;
+}
+
+.error-message {
+    color: #7e1e1e;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.loading-message {
+    text-align: center;
+    font-size: 16px;
+    color: #ede0a6;
+}

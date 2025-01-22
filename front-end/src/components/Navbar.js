@@ -11,8 +11,8 @@ function Navbar() {
         const token = localStorage.getItem("token");
         const userTypeFromStorage = localStorage.getItem("userType");
 
-        setIsAuthenticated(!!token); 
-        setUserType(userTypeFromStorage); 
+        setIsAuthenticated(!!token);
+        setUserType(userTypeFromStorage);
     }, []);
 
     const handleLogout = () => {
@@ -31,7 +31,11 @@ function Navbar() {
 
     return (
         <nav className="navbar">
-            <ul>
+            <div className="navbar-left">
+                <img src="/images/logocsie.jpeg" alt="Logo" className="navbar-logo" />
+                <h1 className="navbar-title">AnonymousGrade</h1>
+            </div>
+            <ul className="navbar-links">
                 {!isAuthenticated && (
                     <>
                         <li>
@@ -47,14 +51,15 @@ function Navbar() {
                         {userType === "student" && (
                             <>
                                 <li>
+                                    <Link to="/create-team">Create Team</Link>
+                                </li>
+                                <li>
                                     <Link to="/student-workspace">Student Workspace</Link>
                                 </li>
                                 <li>
                                     <Link to="/jury-projects">Jury Workspace</Link>
                                 </li>
-                                <li>
-                                    <Link to="/create-team">Create Team</Link>
-                                </li>
+                               
                             </>
                         )}
                         {userType === "professor" && (
@@ -63,10 +68,7 @@ function Navbar() {
                             </li>
                         )}
                         <li>
-                            <button
-                                onClick={handleLogout}
-                                className="logout-button"
-                            >
+                            <button onClick={handleLogout} className="logout-button">
                                 Logout
                             </button>
                         </li>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./ProfessorWorkspace.css";
 
 function ProfessorWorkspace() {
     const [projects, setProjects] = useState([]);
