@@ -20,7 +20,6 @@ function StudentWorkspace() {
                 setTeam(teamResponse.data);
 
                 if (teamResponse.data.TeamName) {
-                    // Fetch grades with mean calculation
                     const gradesResponse = await axios.get(
                         `http://localhost:8000/api/grades/${teamResponse.data.TeamName}`,
                         {
@@ -31,7 +30,6 @@ function StudentWorkspace() {
                     );
                     setGrades(gradesResponse.data);
 
-                    // Fetch projects
                     const projectsResponse = await axios.get(
                         `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
                         {

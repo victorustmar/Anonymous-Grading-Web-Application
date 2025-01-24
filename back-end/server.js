@@ -23,13 +23,11 @@ sequelize
     .authenticate()
     .then(() => {
         console.log("Database connection established successfully.");
-        // Synchronize the database without altering or forcing destructive changes
         return sequelize.sync();
     })
     .then(async () => {
         console.log("Database synchronized!");
 
-        // Check if Users_backup table exists and create it if it doesn't
         await sequelize.query(`
             CREATE TABLE IF NOT EXISTS Users_backup (
                 UserId INTEGER PRIMARY KEY,
@@ -43,7 +41,6 @@ sequelize
         `);
         console.log("Users_backup table ensured.");
 
-        // Populate Users_backup table with data from Users
         await sequelize.query(`
             INSERT OR IGNORE INTO Users_backup (UserId, Username, Password, Email, UserType, createdAt, updatedAt)
             SELECT DISTINCT UserId, Username, Password, Email, UserType, createdAt, updatedAt
@@ -53,7 +50,7 @@ sequelize
     })
     .catch((error) => {
         console.error("Database initialization failed:", error);
-        process.exit(1); // Exit the process if there's a fatal error
+        process.exit(1);
     });
 
 
@@ -94,29 +91,24 @@ const restrictAccess = (allowedRoles) => {
 app.post("/api/register", async (req, res) => {
     const { username, password, email, userType } = req.body;
 
-    // Validare pentru toate câmpurile
     if (!username || !password || !email || !userType) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     try {
-        // Verifică dacă utilizatorul există deja în baza de date
         const existingUser = await User.findOne({ where: { Email: email } });
         if (existingUser) {
-            // Dacă utilizatorul există deja, verifică dacă este profesor
             if (userType === "professor") {
                 const professor = await Professor.findOne({ where: { UserId: existingUser.UserId } });
                 if (professor) {
                     return res.status(409).json({ message: "Professor already registered with this email." });
                 }
-                // Dacă utilizatorul există dar nu este profesor, creează profesorul
                 await Professor.create({ UserId: existingUser.UserId });
                 return res.status(201).json({ message: "Professor successfully registered.", user: existingUser });
             }
             return res.status(409).json({ message: "An account with this email already exists." });
         }
 
-        // Creează utilizatorul nou
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({
             Username: username,
@@ -221,8 +213,6 @@ app.get('/teams/student/:userId', authenticateToken, async (req, res) => {
     }
 });
 
-
-//create Team
 app.post('/api/teams', authenticateToken, restrictAccess(['student']), async (req, res) => {
     const { name, members } = req.body;
 
@@ -508,7 +498,7 @@ app.get("/api/professor-projects", authenticateToken, restrictAccess(["professor
                         title: project.Title,
                         teamName: project.Team.TeamName,
                         members: project.Team.Students.map((student) => student.User.Username),
-                        meanGrade: meanGrade.toFixed(2), // Round to 2 decimal places
+                        meanGrade: meanGrade.toFixed(2),
                     };
                 }
                 return null;
@@ -580,64 +570,33 @@ app.post("/api/assign-jury", async (req, res) => {
         res.status(500).json({ message: "Failed to assign jury." });
     }
 });
-/* app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["jury", "student"]), async (req, res) => {
-    const { projectId } = req.params;
-    const { gradeValue } = req.body;
-
-    if (!gradeValue || gradeValue < 1 || gradeValue > 10) {
-        return res.status(400).json({ message: "Grade must be between 1 and 10." });
-    }
-
-    try {
-        const jury = await Jury.findOne({
-            where: {
-                UserId: req.user.userId,
-                ProjectId: projectId,
-            },
-        });
-
-        if (!jury) {
-            return res.status(404).json({ message: "Jury assignment not found for this project." });
-        }
-
-        await Grade.create({ JuryId: jury.JuryId, ProjectId: projectId, GradeValue: gradeValue });
-        res.status(201).json({ message: "Grade submitted successfully." });
-    } catch (error) {
-        console.error("Error submitting grade:", error);
-        res.status(500).json({ message: "Failed to submit grade." });
-    }
-}); */
 
 app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"]), async (req, res) => {
     const { projectId } = req.params;
     const { gradeValue } = req.body;
 
-    // Validate grade value
     if (!gradeValue || gradeValue < 1 || gradeValue > 10) {
         return res.status(400).json({ message: "Grade must be between 1 and 10." });
     }
 
     try {
-        // Verify the student exists
         const student = await Student.findOne({
-            where: { UserId: req.user.userId }, // Map UserId to StudentId
+            where: { UserId: req.user.userId },
         });
 
         if (!student) {
             return res.status(404).json({ message: "Student not found." });
         }
 
-        // Verify if the project exists
         const project = await Project.findOne({ where: { ProjectId: projectId } });
 
         if (!project) {
             return res.status(404).json({ message: "Project not found." });
         }
 
-        // Check if the student has already graded this project
         const existingGrade = await Grade.findOne({
             where: {
-                StudentId: student.StudentId, // Use the correct StudentId
+                StudentId: student.StudentId,
                 ProjectId: projectId,
             },
         });
@@ -647,14 +606,13 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"])
         }
 
         console.log({
-            StudentId: student.StudentId, // Log the correct StudentId
+            StudentId: student.StudentId,
             ProjectId: projectId,
             grade: gradeValue,
         });
 
-        // Create a new grade entry
         await Grade.create({
-            StudentId: student.StudentId, // Use the correct StudentId
+            StudentId: student.StudentId,
             ProjectId: projectId,
             grade: gradeValue,
         });
@@ -664,8 +622,7 @@ app.post("/api/grade/:projectId", authenticateToken, restrictAccess(["student"])
         console.error("Error submitting grade:", error);
         res.status(500).json({ message: "Failed to submit grade." });
     }
-});
-
+}); 
 
 app.get('/api/projects/team/:teamName', authenticateToken, restrictAccess(['student']), async (req, res) => {
     const { teamName } = req.params;
@@ -693,19 +650,18 @@ app.get("/api/grades/:teamName", async (req, res) => {
     try {
         const projects = await Project.findAll({
             where: { TeamName: teamName },
-            include: [{ model: Grade, attributes: ["grade"] }], // Correct column name
+            include: [{ model: Grade, attributes: ["grade"] }],
         });
 
-        // Calculate mean grades for projects with exactly 3 grades
         const grades = projects
             .map((project) => {
-                const gradeValues = project.Grades.map((grade) => grade.grade); // Correct column name
+                const gradeValues = project.Grades.map((grade) => grade.grade);
 
                 if (gradeValues.length === 3) {
                     const mean = gradeValues.reduce((sum, grade) => sum + grade, 0) / gradeValues.length;
                     return {
                         ProjectTitle: project.Title,
-                        MeanGrade: mean.toFixed(2), // Round to 2 decimal places
+                        MeanGrade: mean.toFixed(2),
                     };
                 }
                 return null;
@@ -754,7 +710,6 @@ app.get('/api/jury/random-project', authenticateToken, restrictAccess(['student'
             return res.status(404).json({ message: "Student not found." });
         }
 
-        // Fetch all projects not belonging to the student's team
         const projects = await Project.findAll({
             where: {
                 TeamName: { [Sequelize.Op.ne]: student.TeamId },
@@ -767,14 +722,12 @@ app.get('/api/jury/random-project', authenticateToken, restrictAccess(['student'
             ],
         });
 
-        // Filter projects with fewer than 3 grades
         const filteredProjects = projects.filter((project) => project.Grades.length < 3);
 
         if (filteredProjects.length === 0) {
             return res.status(404).json({ message: "No eligible projects available." });
         }
 
-        // Select a random project
         const randomProject = filteredProjects[Math.floor(Math.random() * filteredProjects.length)];
 
         res.status(200).json(randomProject);
