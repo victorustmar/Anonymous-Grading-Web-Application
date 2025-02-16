@@ -5,12 +5,12 @@ export default (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        JuryId: {
+        StudentId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Jury",
-                key: "JuryId",
+                model: "Students",
+                key: "StudentId",
             },
         },
         ProjectId: {

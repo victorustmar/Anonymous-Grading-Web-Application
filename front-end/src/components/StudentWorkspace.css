@@ -2,7 +2,7 @@
     width: 800px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #799163; 
+    background-color: #add990; 
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     color: #ffffff;
@@ -12,13 +12,13 @@
 .student-workspace-container h1 {
     text-align: center;
     font-size: 28px;
-    color: #ede0a6;
+    color: #132967;
     margin-bottom: 30px;
 }
 
 .student-workspace-container h2 {
     font-size: 24px;
-    color: #ede0a6;
+    color: #132967;
     border-bottom: 2px solid #ede0a6;
     padding-bottom: 5px;
     margin-bottom: 20px;
@@ -26,7 +26,7 @@
 
 .student-workspace-container h3,
 .student-workspace-container h4 {
-    color: #ede0a6;
+    color: #132967;
     margin-top: 15px;
 }
 
@@ -55,15 +55,15 @@
 .section-container {
     padding: 15px;
     margin-bottom: 20px;
-    border: 2px solid #ede0a6;
+    border: 2px solid #132967;
     border-radius: 10px;
-    background-color: #799163;
+    background-color: #91be66;
 }
 
 .add-project-container label,
 .grades-section label {
     font-size: 16px;
-    color: #ede0a6;
+    color: #132967;
     margin-bottom: 10px;
     display: block;
 }
@@ -81,7 +81,7 @@
 }
 
 .add-project-container button {
-    background-color: #540202;
+    background-color: #132967;
     color: #ffffff;
     padding: 10px 15px;
     border: none;
@@ -91,7 +91,7 @@
 }
 
 .add-project-container button:hover {
-    background-color: #7e1e1e;
+    background-color: #88afd6;
 }
 
 .grades-section ul {

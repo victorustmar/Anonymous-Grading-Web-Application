@@ -6,7 +6,7 @@ import "./StudentWorkspace.css";
 function StudentWorkspace() {
     const [team, setTeam] = useState(null);
     const [grades, setGrades] = useState([]);
-    const [projects, setProjects] = useState([]); // State for team projects
+    const [projects, setProjects] = useState([]);
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -20,7 +20,6 @@ function StudentWorkspace() {
                 setTeam(teamResponse.data);
 
                 if (teamResponse.data.TeamName) {
-                    // Fetch grades
                     const gradesResponse = await axios.get(
                         `http://localhost:8000/api/grades/${teamResponse.data.TeamName}`,
                         {
@@ -31,7 +30,6 @@ function StudentWorkspace() {
                     );
                     setGrades(gradesResponse.data);
 
-                    // Fetch projects
                     const projectsResponse = await axios.get(
                         `http://localhost:8000/api/projects/team/${teamResponse.data.TeamName}`,
                         {
@@ -110,13 +108,12 @@ function StudentWorkspace() {
                     <ul>
                         {grades.map((grade, index) => (
                             <li key={index}>
-                                <strong>Project:</strong> {grade.ProjectTitle} - <strong>Grade:</strong>{" "}
-                                {grade.GradeValue}
+                                <strong>Project:</strong> {grade.ProjectTitle} - <strong>Mean Grade:</strong> {grade.MeanGrade}
                             </li>
                         ))}
                     </ul>
                 ) : (
-                    <p>No grade received yet.</p>
+                    <p>No projects with exactly 3 grades yet.</p>
                 )}
             </div>
         </div>

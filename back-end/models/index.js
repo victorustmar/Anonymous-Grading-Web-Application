@@ -10,7 +10,6 @@ import projectModel from "./project.js";
 import juryModel from "./jury.js";
 import gradeModel from "./grade.js";
 
-// Initialize models
 const User = userModel(sequelize, DataTypes);
 const Student = studentModel(sequelize, DataTypes);
 const Professor = professorModel(sequelize, DataTypes);
@@ -19,7 +18,6 @@ const Project = projectModel(sequelize, DataTypes);
 const Jury = juryModel(sequelize, DataTypes);
 const Grade = gradeModel(sequelize, DataTypes);
 
-// Define Associations
 User.hasMany(Student, { foreignKey: "UserId" });
 Student.belongsTo(User, { foreignKey: "UserId" });
 
@@ -32,7 +30,6 @@ Student.belongsTo(Professor, { foreignKey: "ProfessorId" });
 Jury.belongsTo(User, { foreignKey: "UserId" });
 Jury.belongsTo(Project, { foreignKey: "ProjectId" });
 
-Jury.hasMany(Grade, { foreignKey: "JuryId" });
 
 Team.hasMany(Student, { foreignKey: "TeamId" });
 Student.belongsTo(Team, { foreignKey: "TeamId" });
@@ -45,7 +42,6 @@ Project.hasMany(Jury, { foreignKey: "ProjectId" });
 
 Project.hasMany(Grade, { foreignKey: "ProjectId" });
 
-Grade.belongsTo(Jury, { foreignKey: "JuryId" });
 Grade.belongsTo(Project, { foreignKey: "ProjectId" });
 
 

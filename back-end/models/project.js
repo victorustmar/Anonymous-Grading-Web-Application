@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             references: {
-                model: "teams", // Matches the table name
+                model: "teams",
                 key: "TeamName",
             },
         },

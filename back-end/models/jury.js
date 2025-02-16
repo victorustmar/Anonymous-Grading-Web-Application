@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: "Users", // Ensure this matches the Users table
+                    model: "Users",
                     key: "UserId",
                 },
             },
@@ -19,14 +19,14 @@ export default (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
-                    model: "Projects", // Ensure this matches the Projects table
+                    model: "Projects",
                     key: "ProjectId",
                 },
             },
         },
         {
-            tableName: "Jury", // Match the new table name
-            timestamps: true, // Automatically add createdAt and updatedAt
+            tableName: "Jury",
+            timestamps: true,
         }
     );
 

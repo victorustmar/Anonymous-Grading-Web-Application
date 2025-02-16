@@ -1,0 +1,96 @@
+.jury-assigned-projects-container {
+    width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #add990;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.jury-assigned-projects-container h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #132967;
+    margin-bottom: 20px;
+}
+
+.project-details {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #9dcce4;
+    border-radius: 10px;
+    border: 2px solid #ede0a6;
+}
+
+.project-details h2 {
+    font-size: 24px;
+    color: #132967;
+    margin-bottom: 10px;
+}
+
+.project-details p {
+    color: #540202;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.project-details a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.project-details a:hover {
+    text-decoration: underline;
+}
+
+form label {
+    font-size: 16px;
+    color: #132967;
+    display: block;
+    margin-bottom: 8px;
+}
+
+form input {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ede0a6;
+    font-size: 16px;
+    color: #540202;
+}
+
+form button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #507b58;
+    color: #ede0a6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover {
+    background-color: #799163;
+    transform: scale(1.02);
+}
+
+.error-message {
+    color: #7e1e1e;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.success-message {
+    color: #ede0a6;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
