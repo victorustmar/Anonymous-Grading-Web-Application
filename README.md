@@ -1,5 +1,4 @@
 # Anonymous-Grading-Web-Application
-* Anonymous Grading Web Application - Webtech Project 2024
 
 # Objective
 * Developing a web application which allows student projects to be graded by anonymous juries of colleagues.
