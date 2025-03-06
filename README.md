@@ -9,7 +9,7 @@
 
 * The application is built on a Single Page Application architecture and is accessible from the browser on the desktop, mobile devices or tablets (depending on user preference).
 
-# (Minimal) functionality
+# Functionalities
 * As a student member in a project team (PM) I can add a project and define a series of partial project deliverables. By registering I automatically become eligible as an evaluator.
 * As a PM I can add a demonstrative video or a link to a server hosting the deployed project for any partial deliverable.
 * When a partial deliverable is due, any student who is not a PM for a particular project can be randomly selected to be part of the project jury. A student which is a member of said jury can grade the project. 
@@ -17,7 +17,7 @@
 * As a professor, I can see the results of the evaluation for each project, without being able to see the identity of the jury members.
 * The application has a system of permissions. Only a member of the jury can add/modify grades and they can only modify their own grades. Grades can only be modified for a limited period of time.
 
-# Technical Requirements
+# Technologies
 
 * Frontend:
 Framework: React.js.
